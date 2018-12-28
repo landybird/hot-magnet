@@ -5,6 +5,7 @@ __pycache__/
 /cup/
 # C extensions
 *.so
+*.swp
 /data_/
 .idea
 # Distribution / packaging
