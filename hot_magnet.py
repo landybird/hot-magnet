@@ -163,7 +163,7 @@ def main():
     else:
         temp_magnet_list = handler.run(
             base_url, args.keyword[0], args.count, args.sort)
-        magnet_list = _sort_magnet_list(temp_magnet_list)
+        magnet_list = _sort_magnet_list(temp_magnet_list, args.sort)
         if args.output:
             _output_file(magnet_list, args.output)
         else:
