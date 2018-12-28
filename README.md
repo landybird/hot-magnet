@@ -41,13 +41,16 @@ optional arguments:
   -s SORT, --sort SORT  0: hot, 1:new   0 按热度（默认） 1 按时间
   -c COUNT, --count COUNT
                         指定返回的磁链数目 默认20条
-  -v, --version         查看当前版本 version information.```
+  -v, --version         查看当前版本 version information.
+  
+  ```
 
 
 > 示例
 
 
 **1 根据关键字搜索**
+
 ```
 (hot-magnet) λ hot-magnet 无名之辈
 
@@ -96,6 +99,7 @@ optional arguments:
 
 
 **2 排序（0 热度 1 时间）**
+
 ```
 $  hot-magnet 无名之辈 -s 1 -c 10   # 按时间排序, 10条记录
 
@@ -117,6 +121,7 @@ $  hot-magnet 无名之辈 -s 1 -c 10   # 按时间排序, 10条记录
 ```
 
 **3 保存json或者csv文件
+
 ```
 (hot-magnet) λ hot-magnet 无名之辈 -s 1 -c 10  -o a.json
 
