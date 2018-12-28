@@ -11,15 +11,23 @@ setup(
     license="MIT",
     url="https://github.com/landybird/hot-magnet",
     py_modules=["hot_magnet"],
-    install_requires=["setuptools", "requests", "fake_useragent", "requests_html", "PyYAML"],
+    install_requires=[
+        "setuptools",
+        "requests",
+        "fake_useragent",
+        "requests_html",
+        "PyYAML"],
     description="Get Hot Magnet Top 20",
-    long_description = long_description,
-    packages=find_packages(exclude=("tests.*", "tests", "example")),
+    long_description=long_description,
+    packages=find_packages(
+        exclude=(
+                "tests.*",
+                "tests",
+                "example")),
     include_package_data=True,
     entry_points={
-        "console_scripts": ["hot-magnet=hot_magnet:main"]
-    },
+        "console_scripts": ["hot-magnet=hot_magnet:main"]},
     classifiers=[
         "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: MIT License",]
-)
+        "License :: OSI Approved :: MIT License",
+    ])

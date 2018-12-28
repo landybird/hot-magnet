@@ -12,20 +12,41 @@ from requests_html import HTMLSession
 from requests.exceptions import RequestException
 
 
-
 def _get_params():
     """
     获取命令行参数
     """
     parser = argparse.ArgumentParser(description='获取磁链的工具(默认为热度最高的TOP20)')
 
-    parser.add_argument('keyword', metavar="KEYWORD", type=str, nargs="*",help='磁链关键字, 必填项')
-    parser.add_argument('-o','--output', type=str,help='导出至文件 output file path, supports csv and json format.')
-    parser.add_argument('-s','--sort', type=int, default=0, help="0: hot, 1:new")
-    parser.add_argument('-c','--count', type=int, default=20, help="指定返回的磁链数目")
-    parser.add_argument('-v','--version', action='store_true',help='version information.')
+    parser.add_argument(
+        'keyword',
+        metavar="KEYWORD",
+        type=str,
+        nargs="*",
+        help='磁链关键字, 必填项')
+    parser.add_argument(
+        '-o',
+        '--output',
+        type=str,
+        help='导出至文件 output file path, supports csv and json format.')
+    parser.add_argument(
+        '-s',
+        '--sort',
+        type=int,
+        default=0,
+        help="0: hot, 1:new")
+    parser.add_argument(
+        '-c',
+        '--count',
+        type=int,
+        default=20,
+        help="指定返回的磁链数目")
+    parser.add_argument(
+        '-v',
+        '--version',
+        action='store_true',
+        help='version information.')
     return parser
-
 
 
 def _check_web_site(cfg_dict):
@@ -70,7 +91,8 @@ def _output_file(magnet_list, path):
                     "magnet_date",
                     "magnet_rank"
                 )
-                file_csv = csv.DictWriter(fcsv, fieldnames, extrasaction="ignore")
+                file_csv = csv.DictWriter(
+                    fcsv, fieldnames, extrasaction="ignore")
                 file_csv.writeheader()
                 file_csv.writerows(magnet_list)
                 print("Save {} successfully!".format(path))
@@ -81,6 +103,7 @@ def _output_file(magnet_list, path):
             print("Save {} successfully!".format(path))
         else:
             print("Failed to save the file!")
+
 
 def _print_terminal(magnet_list):
     """
@@ -95,10 +118,20 @@ def _print_terminal(magnet_list):
         print("大小:", magnet["magnet_size"])
         print("日期:", magnet["magnet_date"])
         print("热度:", magnet["magnet_rank"], "\n")
+
     print("===================完成=====================")
 
 
+def _sort_magnet_list(magnet_list, sort):
 
+    sorted_magnet_list = sorted(
+        magnet_list,
+        key=lambda x: x['magnet_rank'],
+        reverse=True) if sort == 0 else sorted(
+        magnet_list,
+        key=lambda x: x['magnet_date'],
+        reverse=True)
+    return sorted_magnet_list
 
 
 def main():
@@ -128,14 +161,14 @@ def main():
         parser.print_help()
 
     else:
-        magnet_list = handler.run(base_url, args.keyword[0], args.count, args.sort)
-
+        temp_magnet_list = handler.run(
+            base_url, args.keyword[0], args.count, args.sort)
+        magnet_list = _sort_magnet_list(temp_magnet_list)
         if args.output:
             _output_file(magnet_list, args.output)
         else:
             _print_terminal(magnet_list)
 
 
-
 if __name__ == '__main__':
-   main()
+    main()
