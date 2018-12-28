@@ -7,10 +7,10 @@ setup(
     author="landybird",
     author_email="1442172978@qq.com",
     name="hot-magnet",
-    version="0.0.4",
+    version="0.0.5",
     license="MIT",
     url="https://github.com/landybird/hot-magnet",
-    py_modules=["hot_magnet", "handler"],
+    py_modules=["hot_magnet"],
     install_requires=[
         "setuptools",
         "requests",
@@ -20,11 +20,7 @@ setup(
     description="Get Hot Magnet Top 20",
     long_description_content_type="text/markdown",
     long_description=long_description,
-    packages=find_packages(
-        exclude=(
-                "tests.*",
-                "tests",
-                "example")),
+    packages=["handler"],
     include_package_data=True,
     entry_points={
         "console_scripts": ["hot-magnet=hot_magnet:main"]},
