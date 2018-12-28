@@ -10,7 +10,7 @@ setup(
     version="0.0.1",
     license="MIT",
     url="https://github.com/landybird/hot-magnet",
-    # py_modules=["hot_magnet","handler"],
+    py_modules=["hot_magnet"],
     install_requires=["setuptools", "requests", "fake_useragent", "requests_html", "PyYAML"],
     description="Get Hot Magnet Top 20",
     long_description = long_description,
