@@ -7,6 +7,7 @@
 
 `Windows`/`Linux`/`MacOs`
 
+<br>
 
 ### 1 安装
 
@@ -23,8 +24,9 @@ $ pip install hot-magnet
  $ python setup.py install
  ```
 
+<br>
 
-### 2 使用
+### 2 使用 （命令行模式）
 ```
 usage: hot-magnet [-h] [-o OUTPUT] [-s SORT] [-c COUNT] [-v]
                   [KEYWORD [KEYWORD ...]]
@@ -49,7 +51,7 @@ optional arguments:
 > 示例
 
 
-**1 根据关键字搜索**
+**(1) 根据关键字搜索**
 
 ```
 (hot-magnet) λ hot-magnet 无名之辈
@@ -98,7 +100,7 @@ optional arguments:
 ```
 
 
-**2 排序（0 热度 1 时间）**
+**(2) 排序（0 热度 1 时间）**
 
 ```
 $  hot-magnet 无名之辈 -s 1 -c 10   # 按时间排序, 10条记录
@@ -120,7 +122,7 @@ $  hot-magnet 无名之辈 -s 1 -c 10   # 按时间排序, 10条记录
 
 ```
 
-**3 保存json或者csv文件**
+**(3) 保存json或者csv文件**
 
 ```
 (hot-magnet) λ hot-magnet 无名之辈 -s 1 -c 10  -o a.json
@@ -148,6 +150,53 @@ Save a.json successfully!
 ]
 
 ```
+
+<br>
+
+### 3 使用 （模块独立使用模式）
+
+```python
+
+from handler.magnet_handler import cilimaoHandler
+
+handler = cilimaoHandler()
+
+ # vars(handler)
+ # {'HEADERS': {'X-Requested-With': 'XMLHttpRequest',
+   'User-Agent': 'Mozilla/5.0 (X11; OpenBSD i386) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36'},
+  'session': <requests_html.HTMLSession at 0xfdd004b0>,
+  'magnet_list': [],
+  'page': 10}
+  
+magnet_list = handler.run(base_url, keyword, count, sort)
+
+ 结果：
+    [{'magnet': 'magnet:?xt=urn:btih:5D1F70028C762D5D796BAC4D13539D1532327E11',
+     'magnet_name': '无名之辈.2018.TC.720P.X264.ACC-BTshoufa[国语中字]',
+     'magnet_size': '1.87GB',
+     'magnet_date': '2018-12-6',
+     'magnet_rank': '一般'},
+
+    ...,
+
+    {'magnet': 'magnet:?xt=urn:btih:9DE730AFE471C5EB61F81EC67E5334E5F7D818E4',
+     'magnet_name': '[91xinpian.com]无名之辈HC1080P高清国语中字.mkv',
+     'magnet_size': '4.88GB',
+     'magnet_date': '2018-12-5',
+     'magnet_rank': '一般'},
+    {'magnet': 'magnet:?xt=urn:btih:05FF97BE07BE163EA267229EC0E196204648B93C',
+     'magnet_name': '无名之辈.HD.1080P.国语中字',
+     'magnet_size': '2.43GB',
+     'magnet_date': '2018-12-24',
+     'magnet_rank': '一般'}]
+
+
+
+
+```
+
+
+
 
 
 ### License
