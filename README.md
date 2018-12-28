@@ -8,178 +8,94 @@
 `Windows`/`Linux`/`MacOs`
 
 
-### 安装
-#### pip 安装
+### 1 安装
+
+> pip 安装
 ```
-$ pip install torrent-cli
+$ pip install hot-magnet
 ```
 
-#### 源码安装
+> 源码安装
 ```
- $ git clone https://github.com/chenjiandongx/torrent-cli.git
- $ cd torrent-cli
+ $ git clone https://github.com/landybird/hot-magnet.git
+ $ cd hot-magnet
  $ pip install -r requirements.txt
  $ python setup.py install
  ```
 
 
-### 如何使用
+### 2 使用
 ```
-$ torrent-cli
-usage: torrent-cli [-h] [-n NUM] [-s SORT_BY] [-o OUTPUT] [-p] [-v]
-                   [KEYWORD [KEYWORD ...]]
+usage: hot-magnet [-h] [-o OUTPUT] [-s SORT] [-c COUNT] [-v]
+                  [KEYWORD [KEYWORD ...]]
 
-Magnets-Getter CLI Tools.
+获取磁链的工具(默认为热度最高的TOP20)
 
 positional arguments:
-  KEYWORD               magnet keyword.
+  KEYWORD               磁链关键字, 必填项
 
 optional arguments:
   -h, --help            show this help message and exit
-  -n NUM, --num NUM     magnet number.(default 10)
-  -s SORT_BY, --sort-by SORT_BY
-                        0: Sort by date，1: Sort by size. 2: Sort by hot-
-                        rank.(default 0)
   -o OUTPUT, --output OUTPUT
-                        output file path, supports csv and json format.
-  -p, --pretty-oneline  show magnets info with one line.
-  -v, --version         version information.
+                        导出至文件 支持csv 和 json格式  output file path, supports csv and json format.
+  -s SORT, --sort SORT  0: hot, 1:new   0 按热度（默认） 1 按时间
+  -c COUNT, --count COUNT
+                        指定返回的磁链数目 默认20条
+  -v, --version         查看当前版本 version information.```
+
+
+> 示例
+
+
+**1 根据关键字搜索**
+```
+(hot-magnet) λ hot-magnet 无名之辈
+
+=========collecting Data=============
+
+磁链: magnet:?xt=urn:btih:AB8E72974F4374E218770B1DC9EAA8287A81E6CA
+名称: 无名之辈HD国语中字.mp4
+大小: 1.07GB
+日期: 2018-12-3
+热度: 一般
+
+磁链: magnet:?xt=urn:btih:FBAE30FB853DDDF6944CA7380E064F96B9C46825
+名称: 无名之辈 HC 720P高清国语中字
+大小: 1.65GB
+日期: 2018-12-14
+热度: 一般
+
+...
+
+磁链: magnet:?xt=urn:btih:AE2B6E55B8D00430FA8117E768DA4F0938331C8E
+名称: 无名之辈HDTC高清版本.mp4
+大小: 2.92GB
+日期: 2018-12-4
+热度: 一般
+
+磁链: magnet:?xt=urn:btih:248DF944C119A841C2B2544E547AE096417A0DFA
+名称: 无名之辈BD国语中字.mp4
+大小: 1.14GB
+日期: 2018-12-7
+热度: 一般
+
+磁链: magnet:?xt=urn:btih:ED423A662E458179B4864CBDBBF0D71CDDACFC6E
+名称: [zilu1.com]无名之辈HC1080P高清国语中字
+大小: 3.47GB
+日期: 2018-12-7
+热度: 一般
+
+磁链: magnet:?xt=urn:btih:D3E5DA7DECD75250FD8A7CEBD0A96DDA3FE453E7
+名称: 无名之辈.2018.TC720P.国语中字.mp4
+大小: 1.04GB
+日期: 2018-11-28
+热度: 一般
+
+===================完成============================
 ```
 
 
-#### 示例
-
-**根据单关键字搜索**
-```
-$ torrent-cli 战狼2
-Crawling data for you.....
-磁链: magnet:?xt=urn:btih:80B24033541A8DE529876488E68DCD707B074990
-名称: 战狼2.2017.tc720p.中英双字.制作@卡其，更多免费资源关注微信公众号 ：卡其影视控
-大小: 829.0 MB
-日期: 2018-05-15
-热度: 1
-
-磁链: magnet:?xt=urn:btih:CC3854CACBB5434E03EFF39C693B20223E0AA39D
-名称: [hao4k.com]战狼2.4k.wolf.warriors.ii.2017.hk.2160p.uhd.blu-ray.hevc.truehd.atmos.7.1
-大小: 56.8 GB
-日期: 2018-05-14
-热度: 25
-
-磁链: magnet:?xt=urn:btih:F0BAFA381B258540374F854688CFFC7A590596F0
-名称: 2017战狼2幕后全纪实hd720p中字.mp4
-大小: 148.3 MB
-日期: 2018-03-11
-热度: 5
-
-磁链: magnet:?xt=urn:btih:E7FC73D9E20697C6C440203F5884EF52F9E4BD28
-名称: 战狼2.wlf.wrrirs.2.2017.hd720p.x264.aac-国语中字-rarbt
-大小: 2.2 GB
-日期: 2018-03-11
-热度: 3
-
-磁链: magnet:?xt=urn:btih:B8E5C85B5B368060AB245AC5E434981B0D5543CA
-名称: 战狼2.字幕修复版.wolf.warriors.ii.2017.bd1080p.x264.dts-hd.ma.7.1.mandarin&english.chs-eng.mp4bafans
-大小: 12.4 GB
-日期: 2018-02-23
-热度: 15
-
-磁链: magnet:?xt=urn:btih:D6A5598C03C3123038DB6CAA04AE36D90BB569C6
-名称: 战狼2.wolf.war[email protected]ourbits
-大小: 35.0 GB
-日期: 2018-02-22
-热度: 16
-
-磁链: magnet:?xt=urn:btih:5FE0D9709B9578DBD68BAAB949E00C502C703DE3
-名称: [战狼2wolf.warrior.2][bluray-720p.mkv][3.42gb][国英双语]
-大小: 3.4 GB
-日期: 2018-02-22
-热度: 25
-
-磁链: magnet:?xt=urn:btih:5DFBF035D2CFAB3E04373C92A6463358ED5DA4E7
-名称: 战狼2.超清国语中字.mp4
-大小: 1.8 GB
-日期: 2018-02-22
-热度: 3
-
-磁链: magnet:?xt=urn:btih:E478E2A78ECBD02C0AFC92D6E1552C09C834B43C
-名称: 战狼2.wolf.warriors.ⅱ.2017.1080p.web-dl.x264.aac.mp4
-大小: 2.8 GB
-日期: 2018-02-22
-热度: 54
-
-磁链: magnet:?xt=urn:btih:AD222466087EC7D65A961BB293CE476F936C69B5
-名称: 战狼2.2017.bd1280高清中英双字-www.iidvd.com.mp4
-大小: 1.1 GB
-日期: 2018-02-21
-热度: 29
-```
-
-**支持空格匹配多关键字**
-```
-$ torrent-cli 钢铁侠 3
-Crawling data for you.....
-磁链: magnet:?xt=urn:btih:D43351FC74020C3E41F21C4E2D09736795D88DEE
-名称: 钢铁侠3.iron.man.3.2013.bd1080p.x264.aac.mandarin&english.chs-eng.mp4ba
-大小: 4.7 GB
-日期: 2018-05-15
-热度: 2
-
-磁链: magnet:?xt=urn:btih:C65EBBB542C4D419AD4258530B1E80EF9A2AE105
-名称: 钢铁侠3.mkv
-大小: 1.7 GB
-日期: 2018-03-09
-热度: 1
-
-磁链: magnet:?xt=urn:btih:8C00A1AEEFAFB69365784BD3CFA36C444585A4BF
-名称: 钢铁侠3.iron.man.3.2013.bd1080p.x264.ac3.mandarin&english.chs-eng.adans
-大小: 6.6 GB
-日期: 2018-02-22
-热度: 12
-
-磁链: magnet:?xt=urn:btih:97BEF685F08F2CA98A6F11531CAE5DCD51EFD98B
-名称: [www.hdmayi.com]钢铁侠3.2013.1080p.bd-mp4.国英双语.中英特效字幕
-大小: 5.9 GB
-日期: 2018-01-04
-热度: 10
-
-磁链: magnet:?xt=urn:btih:89244063F9B039F0587190BA46CA63B1D5C53361
-名称: 2013.钢铁侠3.bd1080p英语中英双字[www.bdsee.cn].mp4
-大小: 5.7 GB
-日期: 2017-12-11
-热度: 32
-
-磁链: magnet:?xt=urn:btih:AFF3031AC9D8FD94FB8883E3CCB6FCE84CF68F0C
-名称: 钢铁侠3【iron man3】【dvd-rmvb.英语中字】.rmvb
-大小: 728.5 MB
-日期: 2017-10-17
-热度: 2
-
-磁链: magnet:?xt=urn:btih:FD5C31C972723956811AA0F653A4C3205D5DBAEC
-名称: 钢铁侠3.iron.man.3.2013.bd720p.x264.aac.mandarin&english.chs-eng.mp4ba
-大小: 2.6 GB
-日期: 2017-10-14
-热度: 82
-
-磁链: magnet:?xt=urn:btih:AA40AEC5F9481BB5F75833B7FCBE73A74D75266D
-名称: 【钢铁侠3】【bluray-1080p高清-中英双字】【小罗伯特.唐尼2013科幻大片】
-大小: 1.6 GB
-日期: 2017-10-06
-热度: 1
-
-磁链: magnet:?xt=urn:btih:16BB0FBAC7BC9F40AE1522BA09820D3E60261664
-名称: 钢铁侠3.iron.man.3.2013.bd1080p.超清中英字幕-minimp4
-大小: 2.8 GB
-日期: 2017-09-20
-热度: 51
-
-磁链: magnet:?xt=urn:btih:0F49B618CCAD8292EE1A3FC5E38F433D44C8C51C
-名称: 钢铁侠3.iron.man.3.2013.bd1080p.x264.aac.mandarin&english.chs-eng.mp4ba.mp4
-大小: 4.7 GB
-日期: 2017-09-12
-热度: 80
-```
-
-**单行显示并按大小排序（也可以指定排序顺序为 2，按热度排序）**
+**2 排序（0 热度 1 时间）**
 ```
 $ torrent-cli 战狼2 -p -s 1
 Crawling data for you.....
@@ -194,7 +110,7 @@ magnet:?xt=urn:btih:C1F01F089892ECF2AF168C190754B2921902D9E1 7.5 GB 2017-11-16
 magnet:?xt=urn:btih:DE42BC281CF39F0F489B64F06C2440466D545C83 5.4 GB 2017-12-13
 ```
 
-**或者可以保存为 csv 或者 json 文件**（建议保存为 csv 文件，json 数据会被序列化，转为 utf 编码）
+**3 保存json或者csv文件
 ```
 $ torrent-cli 战狼2 -o movie.csv
 ```
