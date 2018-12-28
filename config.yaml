@@ -13,4 +13,4 @@ WEB_SITE_LIST:
       BASE_URL: httBBB
 
 
-VERSION: version==0.0.3
+VERSION: version==0.0.4
