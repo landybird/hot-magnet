@@ -1,6 +1,6 @@
 from setuptools import setup
 
-with open("README.md", "r") as fh:
+with open("README.md", "r", encoding='utf-8') as fh:
     long_description = fh.read()
 
 setup(
@@ -11,10 +11,13 @@ setup(
     license="MIT",
     url="https://github.com/landybird/hot-magnet",
     py_modules=["hot_magnet"],
-    install_requires=["bs4", "requests", "lxml", "future"],
+    install_requires=["setuptools", "requests", "fake_useragent", "requests_html", "PyYAML"],
     description="Get Hot Magnet Top 20",
     long_description = long_description,
     entry_points={
-        "console_scripts": ["hot_smagnet=manage:main"]
+        "console_scripts": ["hot_magnet=manage:main"]
     },
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",]
 )
