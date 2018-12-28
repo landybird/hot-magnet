@@ -18,6 +18,7 @@ setup(
         "requests_html",
         "PyYAML"],
     description="Get Hot Magnet Top 20",
+    long_description_content_type="text/markdown",
     long_description=long_description,
     packages=find_packages(
         exclude=(
