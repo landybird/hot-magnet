@@ -1,0 +1,16 @@
+WEB_SITE_LIST:
+  -
+    - 磁力猫
+    - cilimao
+    -
+      HANDLER_NAME: cilimaoHandler
+      BASE_URL: https://www.cilimao.cc/
+  -
+    - bt蚂蚁
+    - btant
+    -
+      HANDLER_NAME: btantHandler
+      BASE_URL: httBBB
+
+
+VERSION: version==0.0.9
