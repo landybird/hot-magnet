@@ -52,8 +52,8 @@ class cilimaoHandler(BaseSearchMagnetHandler):
                 for info_url in  magnet_info_detail_url_list:
                     executor.submit(self._get_info, info_url).add_done_callback(self._pack_data)
 
-                return self.magnet_list
-
+        magnet_list = self.magnet_list
+        return magnet_list
 
     def _get_info(self, url):
         r = self.session.get(url, headers=self.HEADERS)
