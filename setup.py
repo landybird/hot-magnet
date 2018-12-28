@@ -15,7 +15,7 @@ setup(
     description="Get Hot Magnet Top 20",
     long_description = long_description,
     entry_points={
-        "console_scripts": ["hot_magnet=manage:main"]
+        "console_scripts": ["hot-magnet=hot_magnet:main"]
     },
     classifiers=[
         "Programming Language :: Python :: 3",
