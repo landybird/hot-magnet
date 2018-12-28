@@ -120,7 +120,7 @@ $  hot-magnet 无名之辈 -s 1 -c 10   # 按时间排序, 10条记录
 
 ```
 
-**3 保存json或者csv文件 **
+**3 保存json或者csv文件**
 
 ```
 (hot-magnet) λ hot-magnet 无名之辈 -s 1 -c 10  -o a.json
