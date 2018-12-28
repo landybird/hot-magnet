@@ -1,80 +1,141 @@
 # encoding : utf-8
 # __author__ = 'jm'
-
-from urllib.parse import urlencode, urljoin
-from concurrent.futures import ThreadPoolExecutor
-import math
+import os
+import csv
+import codecs
 import json
+import argparse
+import importlib
 
-from fake_useragent import UserAgent
+import yaml
 from requests_html import HTMLSession
-
-
-class BaseSearchMagnetHandler(object):
-    def __init__(self):
-        self.HEADERS = {
-            'X-Requested-With': 'XMLHttpRequest',
-            'User-Agent': UserAgent().random
-        }
-        self.session = HTMLSession()
-        self.magnet_list = []
+from requests.exceptions import RequestException
 
 
 
-class cilimaoHandler(BaseSearchMagnetHandler):
-    
-    def __init__(self):
-        super(cilimaoHandler, self).__init__()
-        self.page = 10
+def _get_params():
+    """
+    获取命令行参数
+    """
+    parser = argparse.ArgumentParser(description='获取磁链的工具(默认为热度最高的TOP20)')
 
-    def _get_param(self, sort):
-
-        return {
-            'resourceType': 1, # 电影资源
-            'sortProperties':'download_count' if sort == 0 else 'created_time',
-        }
-
-    def run(self, url, keyword, count, sort):
-        print("=========collecting Data=============")
-        request_dict = self._get_param(sort)
-        request_dict['word'] = keyword
-
-        page_range = math.ceil(count / self.page)
-
-        for page in range(page_range):
-            request_dict['page'] = page + 1
-            search_url = "{}?{}".format(urljoin(url, 'search'),  urlencode(request_dict))
-            r = self.session.get(search_url, headers=self.HEADERS)
-            magnet_info_list = r.html.xpath('//a[@class="Search__result_title___24kb_"]/@href')
-            magnet_info_detail_url_list = [ urljoin(url, info) for info in magnet_info_list]
-
-            with ThreadPoolExecutor(10) as executor:
-                for info_url in  magnet_info_detail_url_list:
-                    executor.submit(self._get_info, info_url).add_done_callback(self._pack_data)
-
-        magnet_list = self.magnet_list
-        return magnet_list
-
-    def _get_info(self, url):
-        r = self.session.get(url, headers=self.HEADERS)
-        magnet = dict()
-        magnet['magnet'] = r.html.xpath("//a[@class='Information__magnet___vubvz']/@href")[0]
-        magnet['magnet_name'] = r.html.xpath("//p[@id='Information__title___3V6H-']/text()")[0]
-        magnet['magnet_size'] = r.html.xpath("//div[@class='Information__detail_information___1Mmca Information__content_information___1e4H7']/b[3]/text()")[0]
-        magnet['magnet_date'] = r.html.xpath("//div[@class='Information__detail_information___1Mmca Information__content_information___1e4H7']/b[4]/text()")[0]
-        magnet['magnet_rank'] = r.html.xpath("//div[@class='Information__detail_information___1Mmca Information__content_information___1e4H7']/b[5]/text()")[0]
-        return magnet
-
-    def _pack_data(self, magnet):
-        ret = magnet.result()
-        self.magnet_list.append(ret)
+    parser.add_argument('keyword', metavar="KEYWORD", type=str, nargs="*",help='磁链关键字, 必填项')
+    parser.add_argument('-o','--output', type=str,help='导出至文件 output file path, supports csv and json format.')
+    parser.add_argument('-s','--sort', type=int, default=0, help="0: hot, 1:new")
+    parser.add_argument('-c','--count', type=int, default=20, help="指定返回的磁链数目")
+    parser.add_argument('-v','--version', action='store_true',help='version information.')
+    return parser
 
 
 
-class btantHandler(BaseSearchMagnetHandler):
-    def run(self, url, keyword, count, sort):
-        print("=========collecting Data=============")
-        pass
+def _check_web_site(cfg_dict):
+    """
+    测试网页是否可用
+    """
+    session = HTMLSession()
+    for item in cfg_dict.get("WEB_SITE_LIST"):
+        try:
+            response = session.get(item[-1].get("BASE_URL"))
+            if response.status_code != 200:
+                continue
+            else:
+                return item[-1]
+        except RequestException as __:
+            continue
 
 
-# ... 添加
+def _read_config():
+    """
+    获取配置
+    """
+    yaml_path =  'config.yaml'
+    f = open(yaml_path, encoding='utf-8')
+    cfg = f.read()
+    cfg_dict = yaml.load(cfg)
+    return cfg_dict
+
+
+def _output_file(magnet_list, path):
+    """
+    导出文件
+    """
+    if path:
+        __, extension = os.path.splitext(path)
+        if extension == '.csv':
+            with open(path, mode='w+', encoding='utf-8-sig', newline="") as fcsv:
+                fieldnames = (
+                    "magnet",
+                    "magnet_name",
+                    "magnet_size",
+                    "magnet_date",
+                    "magnet_rank"
+                )
+                file_csv = csv.DictWriter(fcsv, fieldnames, extrasaction="ignore")
+                file_csv.writeheader()
+                file_csv.writerows(magnet_list)
+                print("Save {} successfully!".format(path))
+
+        elif extension == ".json":
+            with codecs.open(path, mode="w+", encoding="utf-8") as f:
+                json.dump(magnet_list, f, indent=2)
+            print("Save {} successfully!".format(path))
+        else:
+            print("Failed to save the file!")
+
+def _print_terminal(magnet_list):
+    """
+    输出到终端
+    """
+    if not magnet_list:
+        return
+
+    for magnet in magnet_list:
+        print("磁链:", magnet["magnet"])
+        print("名称:", magnet["magnet_name"])
+        print("大小:", magnet["magnet_size"])
+        print("日期:", magnet["magnet_date"])
+        print("热度:", magnet["magnet_rank"], "\n")
+
+    print("===================完成=====================")
+
+
+
+
+def main():
+
+    cfg_dict = _read_config()
+    web_item = _check_web_site(cfg_dict)
+    parser = _get_params()
+    args = parser.parse_args()
+    if args.version:
+        print(cfg_dict["VERSION"])
+        return
+
+    if not web_item:
+        print('配置中的磁链网站已不可用，请更换')
+        return
+
+    handler_name = web_item['HANDLER_NAME']
+    base_url = web_item["BASE_URL"]
+    module = importlib.import_module('handler.magnet_handler')
+    if hasattr(module, handler_name):  # todo 完成测试后使用
+        handler = getattr(module, handler_name)()
+    else:
+        print("没有对应的handler处理")
+        return
+
+    if not args.keyword:
+        parser.print_help()
+
+    else:
+        magnet_list = handler.run(base_url, args.keyword[0], args.count, args.sort)
+
+        if args.output:
+            _output_file(magnet_list, args.output)
+        else:
+            _print_terminal(magnet_list)
+
+
+
+if __name__ == '__main__':
+   main()
