@@ -95,6 +95,8 @@ def _print_terminal(magnet_list):
         print("大小:", magnet["magnet_size"])
         print("日期:", magnet["magnet_date"])
         print("热度:", magnet["magnet_rank"], "\n")
+    print("===================完成=====================")
+
 
 
 
