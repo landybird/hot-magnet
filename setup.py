@@ -7,7 +7,7 @@ setup(
     author="landybird",
     author_email="1442172978@qq.com",
     name="hot-magnet",
-    version="0.04",
+    version="0.0.4",
     license="MIT",
     url="https://github.com/landybird/hot-magnet",
     py_modules=["hot_magnet", "handler"],
