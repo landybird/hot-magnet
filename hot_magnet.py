@@ -48,8 +48,7 @@ def _read_config():
     """
     获取配置
     """
-    cur_path = os.path.dirname(os.path.realpath(__file__))
-    yaml_path = os.path.join(cur_path, 'config.yaml')
+    yaml_path = 'config.yaml'
     f = open(yaml_path, encoding='utf-8')
     cfg = f.read()
     cfg_dict = yaml.load(cfg)
